@@ -1,12 +1,13 @@
 package swatch.apps.com.kayatech.swatch
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import swatch.apps.com.kayatech.swatch.Networking.NetworkUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,18 +24,27 @@ class MainActivity : AppCompatActivity() {
         mSearchResultsTextView = findViewById(R.id.tv_movie_list) as TextView
     }
 
+    internal fun makeMovieSearchQuery() {
+
+        val movieQuery = mSearchBoxEditText?.getText().toString()
+        val movieSearchUrl = NetworkUtils.buildUrl(movieQuery)
+        mSearchResultsTextView?.setText(movieSearchUrl!!.toString())
+
+    }
+
 
     //Inflate Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     //Get Item Clicked on Menu
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val itemId = item?.itemId
-        if (itemId == R.id.action_search){
-            Toast.makeText(this,"Works",Toast.LENGTH_LONG).show()
+        if (itemId == R.id.action_search) {
+            //Toast.makeText(this, "Works", Toast.LENGTH_LONG).show()
+            makeMovieSearchQuery()
         }
         return super.onOptionsItemSelected(item)
     }
