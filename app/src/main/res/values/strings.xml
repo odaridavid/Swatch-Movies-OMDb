@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Swatch</string>
+
+    <!--Main Activity-->
+    <string name="edittext_hint_enter_title">Enter Title</string>
+    <string name="textview_movie_list">See Movie List Here...</string>
+
+    <!--MainActivityMenu-->
+    <string name="action_search_title">Search</string>
+</resources>
