@@ -1,5 +1,6 @@
 package swatch.apps.com.kayatech.swatch
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -8,6 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import swatch.apps.com.kayatech.swatch.Networking.NetworkUtils
+import java.io.IOException
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,8 +31,31 @@ class MainActivity : AppCompatActivity() {
 
         val movieQuery = mSearchBoxEditText?.getText().toString()
         val movieSearchUrl = NetworkUtils.buildUrl(movieQuery)
-        mSearchResultsTextView?.setText(movieSearchUrl!!.toString())
 
+
+        var movieSearchResults: String? = null
+
+        try {
+            movieSearchResults = NetworkUtils.getResponseFromHttpUrl(movieSearchUrl)
+            mSearchResultsTextView?.setText(movieSearchResults.toString())
+        } catch ( e: IOException) {
+            e.printStackTrace()
+        }
+
+    }
+    
+    class MoviQueryTask(): AsyncTask<URL, Unit, String>() {
+        override fun doInBackground(vararg params: URL?): String {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
     }
 
 
