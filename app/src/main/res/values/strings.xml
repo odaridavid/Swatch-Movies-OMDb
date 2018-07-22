@@ -7,4 +7,6 @@
 
     <!--MainActivityMenu-->
     <string name="action_search_title">Search </string>
+
+    <string name="error_message">Failed To Connect</string>
 </resources>

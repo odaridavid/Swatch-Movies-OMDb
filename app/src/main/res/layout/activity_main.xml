@@ -6,28 +6,68 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search For Movies"
+        android:textSize="@dimen/text_size_small"
+        android:textColor="@color/colorPrimary"/>
+
     <EditText
-        android:id="@+id/et_search"
+        android:id="@+id/et_search_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/edittext_hint_enter_title"
         android:inputType="textPersonName" />
-
-    <ScrollView
+    <EditText
+        android:id="@+id/et_search_year"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:padding="@dimen/padding_medium"
-            android:id="@+id/tv_movie_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:text="@string/textview_movie_list"
-            android:textColor="@color/textInfo"
-            android:textSize="@dimen/text_size_medium" />
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Enter Year"
+        android:inputType="textPersonName" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Searches:"
+        android:textSize="@dimen/text_size_small"
+        android:textColor="@color/colorPrimary"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_movie_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text=""
+                android:textColor="@color/textInfo"
+                android:textSize="@dimen/text_size_medium" />
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_error_message_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_message"
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+    </FrameLayout>
 
 </LinearLayout>

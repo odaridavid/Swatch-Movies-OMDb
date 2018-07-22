@@ -16,7 +16,7 @@ import javax.crypto.spec.*;
 
 public class NetworkUtils {
 
-
+    private static final String TAG = NetworkUtils.class.getSimpleName();
 
     //API URL
     final static String oMDBI_BASE_URL =
@@ -27,16 +27,25 @@ public class NetworkUtils {
 
 
 
+
+    final static String PARAM_YEAR = "y";
+    final static String RATED_PARAM = "Rated";
+    final static String RELEASED_PARAM = "Released";
+    final static String GENRE_PARAM = "Genre";
+
+
+
     /**
      * Builds the URL used to query oMDBI.
      *
      * @param movieTitleSearchQuery The keyword that will be queried for.
      * @return The URL to use to query the weather server.
      */
-    public static URL buildUrl(String movieTitleSearchQuery) {
+    public static URL buildUrl(String movieTitleSearchQuery,String movieReleaseYear) {
         // COMPLETED (1) Fill in this method to build the proper movie query URL
         Uri builtUri = Uri.parse(oMDBI_BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_TITLE, movieTitleSearchQuery)
+                .appendQueryParameter(PARAM_YEAR, movieReleaseYear)
                 .build();
 
         URL url = null;
@@ -48,6 +57,13 @@ public class NetworkUtils {
 
         return url;
     }
+    /**
+     * Builds the URL used to query oMDBI.
+     *
+     * @param movieTitleSearchQuery The keyword that will be queried for.
+     * @return The URL to use to query the weather server.
+     */
+
 
     /**
      * This method returns the entire result from the HTTP response.
