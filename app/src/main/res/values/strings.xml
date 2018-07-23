@@ -3,10 +3,15 @@
 
     <!--Main Activity-->
     <string name="edittext_hint_enter_title">Enter Movie Title</string>
-    <string name="textview_movie_list">See Movie List Here...</string>
+    <string name="textview_movie_list">See Movie List Here..</string>
 
     <!--MainActivityMenu-->
     <string name="action_search_title">Search </string>
 
     <string name="error_message">Failed To Connect</string>
+
+    <string name="text_search_movies">Search Movies</string>
+    <string name="hint_search_movies_year">Year</string>
+    <string name="text_search_movies_title">Your Search</string>
+
 </resources>

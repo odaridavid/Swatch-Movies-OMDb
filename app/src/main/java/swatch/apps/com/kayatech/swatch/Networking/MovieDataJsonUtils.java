@@ -15,69 +15,59 @@
  */
 package swatch.apps.com.kayatech.swatch.Networking;
 
-import android.content.ContentValues;
 import android.content.Context;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
 
-/**
- * Utility functions to handle OpenWeatherMap JSON data.
- */
 public final class MovieDataJsonUtils {
 
     /**
      * This method parses JSON from a web response and returns an array of Strings
      * describing the weather over various days from the forecast.
      * <p/>
-       convert the JSON into human-readable strings.
+     * convert the JSON into human-readable strings.
      *
      * @param movieJsonString JSON response from server
-     *
      * @return Array of Strings describing weather data
-     *
      * @throws JSONException If JSON data cannot be properly parsed
      */
     public static String[] getMovieDetailsStringsFromJson(Context context, String movieJsonString)
             throws JSONException {
 
-        /* Weather information. Each day's forecast info is an element of the "list" array */
+        /**
+         *
+         * Json Parameters
+         * @Title Title Of The Movie
+         * @Year Year Released
+         * @Rated Ratings
+         * @Genre Genre Type
+         * For More check out oMDB API Reference
+         *
+         * */
         final String MOVIE_TITLE = "Title";
         final String MOVIE_YEAR = "Year";
         final String MOVIE_RATING = "Rated";
         final String MOVIE_GENRE = "Genre";
 
         JSONObject movieJson = new JSONObject(movieJsonString);
-        /* Is there an error? */
-
-
-
-        /* String array to hold each day's weather String */
-
-
-
+        /**
+         *
+         * Get Strings From Json object and parse to a String Array
+         * **/
 
         String Title = movieJson.getString(MOVIE_TITLE);
         String Year = movieJson.getString(MOVIE_YEAR);
         String Rating = movieJson.getString(MOVIE_RATING);
         String Genre = movieJson.getString(MOVIE_GENRE);
 
-        String[] parsedMovieData  = {Title,Year,Rating,Genre};
+        String[] parsedMovieData = {Title, Year, Rating, Genre};
 
 
+        return parsedMovieData;
 
-
-
-
-
-         return  parsedMovieData;
-
-        }
-
-
+    }
 
 
 }

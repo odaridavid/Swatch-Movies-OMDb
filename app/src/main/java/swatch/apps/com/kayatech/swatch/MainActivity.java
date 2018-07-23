@@ -3,6 +3,8 @@ package swatch.apps.com.kayatech.swatch;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,15 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mSearchBoxEditText;
     private EditText mSearchBoxYearEditText;
-
-
-    private TextView mSearchResultsTextView;
-
-
     private TextView mErrorMessageDisplay;
-
-
     private ProgressBar mLoadingIndicator;
+    private RecyclerView mMovieListRecycler;
+    private MoviesAdapter mMoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +39,44 @@ public class MainActivity extends AppCompatActivity {
 
         mSearchBoxYearEditText = findViewById(R.id.et_search_year);
 
-        mSearchResultsTextView = findViewById(R.id.tv_movie_list);
+      //  mSearchResultsTextView = findViewById(R.id.tv_movie_list);
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        // COMPLETED (25) Get a reference to the ProgressBar using findViewById
+
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+
+        mMovieListRecycler = findViewById(R.id.rv_movie_view);
+
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        mMovieListRecycler.setLayoutManager(layoutManager);
+
+
+        /*
+         * Use this setting to improve performance if you know that changes in content do not
+         * change the child layout size in the RecyclerView
+         */
+        mMovieListRecycler.setHasFixedSize(true);
+
+
+        /*
+         * The MoviesAdapter is responsible for linking movies data with the Views that
+         * will end up displaying our movie data.
+         */
+        mMoviesAdapter = new MoviesAdapter();
+
+
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+        mMovieListRecycler.setAdapter(mMoviesAdapter);
     }
 
     /**
      * This method retrieves the search text from the EditText, constructs the
-     * URL (using {@link NetworkUtils}) for the github repository you'd like to find, displays
-     * that URL in a TextView, and finally fires off an AsyncTask to perform the GET request using
+     * URL (using {@link NetworkUtils}) for the movie you'd like to find
+     * and finally fires off an AsyncTask to perform the GET request using
      * our {@link MovieQueryTask}
      */
     private void makeGithubSearchQuery() {
@@ -61,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         String movieReleaseYear = mSearchBoxYearEditText.getText().toString();
         URL movieSearchUrl = NetworkUtils.buildUrl(movieTitleQuery,movieReleaseYear);
 
-        // COMPLETED (4) Create a new MovieQueryTask and call its execute method, passing in the url to query
+
 
         new MovieQueryTask().execute(movieSearchUrl);
 
@@ -75,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
      * need to check whether each view is currently visible or invisible.
      */
     private void showJsonDataView() {
-        // First, make sure the error is invisible
+        // The error is invisible
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        // Then, make sure the JSON data is visible
-        mSearchResultsTextView.setVisibility(View.VISIBLE);
+        // JSON data is visible
+        mMovieListRecycler.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -89,14 +112,14 @@ public class MainActivity extends AppCompatActivity {
      * need to check whether each view is currently visible or invisible.
      */
     private void showErrorMessage() {
-        // First, hide the currently visible data
-        mSearchResultsTextView.setVisibility(View.INVISIBLE);
-        // Then, show the error
+        //Hide the currently visible data
+        mMovieListRecycler.setVisibility(View.INVISIBLE);
+        //Show the error
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
 
-    // COMPLETED (1) Create a class called MovieQueryTask that extends AsyncTask<URL, Void, String>
+
     public class MovieQueryTask extends AsyncTask<URL, Void, String[]> {
 
 
@@ -106,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        // COMPLETED (2) Override the doInBackground method to perform the query. Return the results. (Hint: You've already written the code to perform the query)
         @Override
         protected String[] doInBackground(URL... params) {
             /* If there's no zip code, there's nothing to look up. */
@@ -128,16 +150,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        // COMPLETED (3) Override onPostExecute to display the results in the TextView
+
         @Override
         protected void onPostExecute(String[] movieSearchResults) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
 
             if (movieSearchResults != null && !movieSearchResults.equals("")) {
-                for (String movieString : movieSearchResults) {
-                    mSearchResultsTextView.append((movieString)+"\n");
 
-                }
+                mMoviesAdapter.setMovieData(movieSearchResults);
+
                 showJsonDataView();
 
             } else {
