@@ -1,8 +1,10 @@
 package swatch.apps.com.kayatech.swatch;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -20,13 +23,13 @@ import java.net.URL;
 import swatch.apps.com.kayatech.swatch.Networking.NetworkUtils;
 import swatch.apps.com.kayatech.swatch.Networking.MovieDataJsonUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.ListItemClickListener{
 
 
 
     private EditText mSearchBoxEditText;
     private EditText mSearchBoxYearEditText;
-    private TextView mErrorMessageDisplay;
+    private CardView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
     private RecyclerView mMovieListRecycler;
     private MoviesAdapter mMoviesAdapter;
@@ -41,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
       //  mSearchResultsTextView = findViewById(R.id.tv_movie_list);
 
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mErrorMessageDisplay = findViewById(R.id.cv_error_message);
 
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mLoadingIndicator =  findViewById(R.id.pb_loading_indicator);
 
         mMovieListRecycler = findViewById(R.id.rv_movie_view);
 
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
          * The MoviesAdapter is responsible for linking movies data with the Views that
          * will end up displaying our movie data.
          */
-        mMoviesAdapter = new MoviesAdapter();
+        mMoviesAdapter = new MoviesAdapter(this);
 
 
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
@@ -118,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onListItemClick(String movieData) {
+        Context context = this;
+        Toast.makeText(context, movieData, Toast.LENGTH_SHORT)
+                .show();
+
+    }
 
 
     public class MovieQueryTask extends AsyncTask<URL, Void, String[]> {

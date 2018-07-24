@@ -2,10 +2,11 @@
 <resources>
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorAccent">#64FFDA</color>
+    <color name="colorAccent">#61d800</color>
 
     <color name="textInfo">#808080</color>
-    <color name="card_view_color">#E91E63</color>
+    <color name="card_view_color">#61d800</color>
 
     <color name="font_color_text">#ffffff</color>
+    <color name="font_color_text_error">#b71c1c</color>
 </resources>

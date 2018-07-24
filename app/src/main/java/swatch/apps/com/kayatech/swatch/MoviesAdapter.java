@@ -10,10 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-
+    /*
+     * An on-click handler that we've defined to make it easy for an Activity to interface with
+     * our RecyclerView
+     */
+    final private ListItemClickListener mOnClickListener;
     private String[] movieSearchResults;
+
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface ListItemClickListener {
+        void onListItemClick(String movieData);
+    }
+
+    MoviesAdapter(ListItemClickListener listener){
+        mOnClickListener = listener;
+    }
 
 
     @NonNull
@@ -39,18 +56,28 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return movieSearchResults.length;
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder{
+    class MovieViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
         TextView mMovieListView;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
+            //Recycler view Font Change
+
             Typeface typeface = ResourcesCompat.getFont(itemView.getContext(), R.font.bohemian_typewriter);
 
             mMovieListView = itemView.findViewById(R.id.tv_item_no);
             mMovieListView.setTypeface(typeface);
+            itemView.setOnClickListener(this);
         }
         void bind(int listIndex){
             mMovieListView.setText(String.valueOf(listIndex));
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            String movie = movieSearchResults[clickedPosition];
+            mOnClickListener.onListItemClick(movie);
         }
     }
 
